@@ -1,12 +1,13 @@
 import ListItem from "../components/ListItem";
 import "../styles/List.css";
+import { mockData } from "../assets/mockData";
 
 const List = () => {
   return (
     <div className="feed active">
-      <ListItem />
-      <ListItem />
-      <ListItem />
+      {mockData.map((data) => {
+        return <ListItem key={data.id} {...data} />;
+      })}
     </div>
   );
 };
