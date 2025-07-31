@@ -22,6 +22,8 @@
   display: flex;
   align-items: center;
   gap: 2px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .logo > img {
@@ -58,4 +60,47 @@
 
 .btn.primary:hover {
   background: #7c3aed;
+}
+
+.sign-out {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-img {
+  border-radius: 50%;
+  width: 80%;
+  height: 80%;
+}
+
+.dropdown {
+  position: absolute;
+  top: 48px;
+  right: -20px;
+  background: rgb(19, 19, 19);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 90px;
+  opacity: 0;
+  color: white;
+  transition: opacity 1s ease;
+}
+
+.sign-out:hover .dropdown {
+  opacity: 1;
+}
+
+.user-actions {
+  display: flex;
+  gap: 10px;
+  margin-right: 70px;
 }
