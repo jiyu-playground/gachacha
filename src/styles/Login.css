@@ -1,0 +1,230 @@
+.login-container {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  width: 100%;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.login-content {
+  flex: 1;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-title::before {
+  content: "🎁";
+}
+
+.login-subtitle {
+  font-size: 20px;
+  color: #6366f1;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.login-description {
+  font-size: 14px;
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 30px 0;
+}
+
+.google-login-btn {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: white;
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.google-login-btn:hover {
+  border-color: #6366f1;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.login-image {
+  flex: 1;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 40px;
+}
+
+.gacha-machine {
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+.machine-body {
+  background: #e9eaeaff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.machine-screen {
+  background: #343a40;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.gacha-items {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.gacha-item {
+  font-size: 24px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.gacha-item:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.gacha-item:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.gacha-item:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+.machine-bottom {
+  text-align: center;
+}
+
+.machine-handle {
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.machine-handle:hover {
+  transform: scale(1.1);
+}
+
+/* 플로팅 아이템들 */
+.floating-items {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.floating-item {
+  position: absolute;
+  font-size: 20px;
+  animation: float-around 6s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+.item-1 {
+  top: 15%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.item-2 {
+  top: 25%;
+  right: 20%;
+  animation-delay: 1s;
+}
+
+.item-3 {
+  bottom: 30%;
+  left: 10%;
+  animation-delay: 2s;
+}
+
+.item-4 {
+  bottom: 15%;
+  right: 15%;
+  animation-delay: 3s;
+}
+
+/* 애니메이션 */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float-around {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotate(90deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(180deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(270deg);
+  }
+}
