@@ -1,12 +1,12 @@
 //TODO tiemAgo getTime으로 가져와서 ~시간 전 or ~일 전이라고 작성되어야 함
 
-import type { mockDataType } from "../assets/mockData";
 import "../styles/ListItem.css";
+import type { postType } from "./List";
 
-const ListItem = ({ emoji, text, timeAgo, spot }: mockDataType) => {
+const ListItem = ({ userId, text, createdAt, spot }: postType) => {
   return (
     <div className="post-card">
-      <div className="post-image">{emoji}</div>
+      <div className="post-image">{userId}</div>
       <div className="post-body">
         <div className="post-text">{text}</div>
         <div className="post-footer">
@@ -16,7 +16,7 @@ const ListItem = ({ emoji, text, timeAgo, spot }: mockDataType) => {
             {/* <button className="action-btn">💬 2</button> */}
             <span>📍 {spot}</span>
           </div>
-          <span>{`${timeAgo}시간 전`}</span>
+          <span>{`${createdAt}`}</span>
         </div>
       </div>
     </div>
