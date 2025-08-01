@@ -11,6 +11,7 @@ export type postType = {
   text: string;
   createdAt: string;
   spot: string;
+  imageUrl: string;
 };
 
 const List = () => {
@@ -29,6 +30,7 @@ const List = () => {
         text: doc.data().text,
         createdAt: doc.data().createdAt,
         spot: doc.data().spot,
+        imageUrl: doc.data().imageUrl,
       })) as postType[];
       setPosts(postsData);
     } catch (error) {

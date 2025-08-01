@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuth } from "../hooks/useAuth";
+import { uploadImage } from "../utils/uploadImage";
 
 type newPost = {
   userId: string;
@@ -17,6 +18,7 @@ type newPost = {
 const Write = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const storage = getStorage();
 
   useEffect(() => {
     if (!user) {
@@ -48,11 +50,17 @@ const Write = () => {
     }
 
     try {
+      let imageUrl = "";
+      if (newPost.image) {
+        imageUrl = await uploadImage(newPost.image, user.uid);
+      }
+
       await addDoc(collection(db, "posts"), {
         userId: user.uid,
         userName: user.displayName,
         text: newPost.text,
         spot: newPost.spot,
+        image: imageUrl,
         createdAt: new Date(),
       });
 
@@ -67,8 +75,12 @@ const Write = () => {
   const onChangeWrite = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setNewPost((prev) => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target as HTMLInputElement;
+    if (name === "image" && files && files[0]) {
+      setNewPost((prev) => ({ ...prev, image: files[0] }));
+    } else {
+      setNewPost((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   return (
