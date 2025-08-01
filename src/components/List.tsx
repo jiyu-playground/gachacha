@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 export type postType = {
   id: string;
   userId: string;
+  userName: string;
   text: string;
   createdAt: string;
   spot: string;
@@ -24,7 +25,7 @@ const List = () => {
       const snapshot = await getDocs(q);
       const postsData = snapshot.docs.map((doc) => ({
         id: doc.id,
-        userId: doc.data().userId || "익명",
+        userName: doc.data().userName,
         text: doc.data().text,
         createdAt: doc.data().createdAt,
         spot: doc.data().spot,

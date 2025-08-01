@@ -3,10 +3,10 @@
 import "../styles/ListItem.css";
 import type { postType } from "./List";
 
-const ListItem = ({ userId, text, createdAt, spot }: postType) => {
+const ListItem = ({ userName, text, createdAt, spot }: postType) => {
   return (
     <div className="post-card">
-      <div className="post-image">{userId}</div>
+      <div className="post-image">{userName}</div>
       <div className="post-body">
         <div className="post-text">{text}</div>
         <div className="post-footer">
