@@ -35,3 +35,11 @@ textarea.form-control {
   resize: vertical;
   min-height: 80px;
 }
+
+.center {
+  margin: 0 auto;
+}
+
+.section-title {
+  margin-bottom: 20px;
+}
