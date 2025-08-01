@@ -1,85 +1,52 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import gachachaLogo from "../assets/gachachaLogo.jpeg";
 import "../styles/Header.css";
-import {
-  // type User,
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
-import { app } from "../../firebase";
-import { useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {
   const navigate = useNavigate();
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
   const { pathname } = useLocation();
-  const [userData, setUserData] = useState({});
+  const { user, login, logout } = useAuth();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        navigate("/login");
-      } else if (user && pathname === "/login") {
-        navigate("/");
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [pathname]);
-
-  const onClickAuth = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        setUserData(result.user);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const onClickLogout = () => {
-    signOut(auth)
-      .then(() => {
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+  const onClickWrite = () => {
+    navigate("/write");
   };
 
   return (
     <header className="header">
       <div className="header-content">
         <Link to={"/"} className="logo">
-          <img src={gachachaLogo} />
+          <img src={gachachaLogo} alt="가차차 로그" />
           가차차
         </Link>
         <div className="nav-buttons">
-          {pathname === "/login" ? (
-            <div className="btn primary" onClick={onClickAuth}>
-              로그인
-            </div>
-          ) : (
-            <div className="sign-out">
-              {userData?.photoURL && (
-                <div className="user-actions">
-                  <Link className="btn" to={`/write`}>
-                    글 쓰기
-                  </Link>
+          {user ? (
+            <div className="user-actions">
+              {pathname !== "/write" && (
+                <Link
+                  className="btn primary"
+                  to={`/write`}
+                  onClick={onClickWrite}
+                >
+                  글쓰기
+                </Link>
+              )}
+              <div className="sign-out">
+                {user?.photoURL && (
                   <img
                     className="user-img"
-                    src={userData.photoURL}
+                    src={user.photoURL}
                     alt="user photo"
                   />
+                )}
+                <div className="dropdown">
+                  <span onClick={logout}>로그아웃</span>
                 </div>
-              )}
-              <div className="dropdown">
-                <span onClick={onClickLogout}>로그아웃</span>
               </div>
+            </div>
+          ) : (
+            <div className="btn primary" onClick={login}>
+              로그인
             </div>
           )}
         </div>

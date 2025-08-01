@@ -9,3 +9,7 @@ body {
   background: #f8f9fa;
   color: #333;
 }
+
+.flex-div {
+  display: flex;
+}
