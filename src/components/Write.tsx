@@ -48,7 +48,6 @@ const Write = () => {
           if (data) {
             if (data.userId !== user.id) {
               alert("수정 권한이 없습니다.");
-              navigate("/list");
               return;
             }
             setPost({
@@ -61,7 +60,7 @@ const Write = () => {
         } catch (error) {
           console.error("게시물 정보를 가져오지 못했습니다.", error);
           alert("게시물 정보를 가져오는 데 실패했습니다.");
-          navigate("/list");
+          navigate("/");
         }
       };
       fetchPost();
@@ -140,7 +139,7 @@ const Write = () => {
         if (error) throw error;
         alert("게시물이 등록되었습니다!");
       }
-      navigate("/list");
+      navigate("/");
     } catch (err) {
       console.error(err);
       alert("작업을 완료하지 못했습니다.");
@@ -201,7 +200,7 @@ const Write = () => {
               onChange={onChange}
             />
             {(post.image || post.existingImageUrl) && (
-              <div className="image-preview">
+              <div>
                 <img
                   src={
                     post.image
@@ -209,6 +208,7 @@ const Write = () => {
                       : post.existingImageUrl || ""
                   }
                   alt="미리보기"
+                  className="image-preview"
                 />
               </div>
             )}
