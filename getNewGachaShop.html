@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>가챠샵 데이터 수집기</title>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=JS키 등록 필수&libraries=services"></script>
+  </head>
+  <body>
+    <div style="padding: 20px; font-family: Arial">
+      <h1>🎯 가챠샵 데이터 수집기</h1>
+      <p>전국 가챠샵 데이터를 수집해서 JSON 파일로 다운로드합니다.</p>
+
+      <button
+        onclick="startDataCollection()"
+        style="
+          padding: 15px 30px;
+          font-size: 16px;
+          background: #3498db;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        "
+      >
+        🚀 데이터 수집 시작!
+      </button>
+
+      <div id="status" style="margin-top: 20px; font-weight: bold"></div>
+      <div
+        id="log"
+        style="
+          margin-top: 10px;
+          background: #f4f4f4;
+          padding: 10px;
+          height: 300px;
+          overflow-y: scroll;
+          font-family: monospace;
+          font-size: 12px;
+        "
+      ></div>
+    </div>
+
+    <script>
+      class SimpleGachaCollector {
+        constructor(apiKey) {
+          this.apiKey = apiKey;
+          this.allShops = []; // 수집된 모든 가챠샵 데이터
+        }
+
+        // 전국 주요 도시에서 가챠샵 데이터 수집
+        async collectAllData() {
+          // 전국 주요 도시들 (더 많이 추가해서 전국적으로 수집)
+          const cities = [
+            { name: "서울", lat: 37.5665, lng: 126.978 },
+            { name: "부산", lat: 35.1796, lng: 129.0756 },
+            { name: "대구", lat: 35.8714, lng: 128.601 },
+            { name: "인천", lat: 37.4563, lng: 126.7052 },
+            { name: "광주", lat: 35.1595, lng: 126.8526 },
+            { name: "대전", lat: 36.3504, lng: 127.3845 },
+            { name: "울산", lat: 35.5384, lng: 129.3114 },
+            { name: "수원", lat: 37.2636, lng: 127.0286 },
+            { name: "고양", lat: 37.6564, lng: 126.8358 },
+            { name: "성남", lat: 37.4201, lng: 127.1262 },
+            { name: "청주", lat: 36.6424, lng: 127.489 },
+            { name: "전주", lat: 35.8242, lng: 127.148 },
+            { name: "안산", lat: 37.3219, lng: 126.8309 },
+            { name: "천안", lat: 36.8151, lng: 127.1139 },
+            { name: "포항", lat: 36.019, lng: 129.3435 },
+          ];
+
+          console.log("🎯 전국 가챠샵 데이터 수집을 시작합니다!");
+          console.log(`📍 총 ${cities.length}개 도시에서 검색할 예정입니다.`);
+
+          // 각 도시별로 검색
+          for (let i = 0; i < cities.length; i++) {
+            const city = cities[i];
+            console.log(
+              `\n🔍 [${i + 1}/${cities.length}] ${city.name} 지역 검색 중...`
+            );
+
+            await this.searchInCity(city);
+
+            // API 호출 제한을 위해 도시마다 3초 대기
+            if (i < cities.length - 1) {
+              console.log("⏳ 3초 대기 중... (API 제한 때문에)");
+              await this.wait(3000);
+            }
+          }
+
+          // 중복 제거
+          this.removeDuplicateShops();
+
+          // JSON 파일로 저장
+          this.downloadJSON();
+
+          console.log(
+            `\n🎉 수집 완료! 총 ${this.allShops.length}개의 가챠샵을 찾았습니다!`
+          );
+        }
+
+        // 특정 도시에서 가챠샵 검색
+        async searchInCity(city) {
+          return new Promise((resolve) => {
+            const ps = new window.kakao.maps.services.Places();
+            const searchKeywords = ["가챠", "가차", "캡슐토이"]; // 검색할 키워드들
+            let finishedSearches = 0;
+
+            // 각 키워드별로 검색
+            searchKeywords.forEach((keyword, index) => {
+              setTimeout(() => {
+                ps.keywordSearch(
+                  keyword,
+                  (results, status) => {
+                    if (status === window.kakao.maps.services.Status.OK) {
+                      console.log(
+                        `  ✅ "${keyword}" 검색: ${results.length}개 발견`
+                      );
+
+                      // 검색 결과를 그대로 저장 (필터링 없이)
+                      results.forEach((place) => {
+                        this.allShops.push({
+                          id: place.id,
+                          place_name: place.place_name,
+                          x: place.x, // 경도
+                          y: place.y, // 위도
+                          road_address_name: place.road_address_name,
+                          address_name: place.address_name,
+                          phone: place.phone,
+                          category_name: place.category_name,
+                          place_url: place.place_url,
+                          search_keyword: keyword, // 어떤 키워드로 찾았는지 기록
+                          search_city: city.name, // 어느 도시에서 찾았는지 기록
+                          collected_at: new Date().toISOString(), // 언제 수집했는지 기록
+                        });
+                      });
+                    } else {
+                      console.log(`  ❌ "${keyword}" 검색 실패 또는 결과 없음`);
+                    }
+
+                    finishedSearches++;
+                    if (finishedSearches === searchKeywords.length) {
+                      resolve(); // 이 도시의 모든 키워드 검색 완료
+                    }
+                  },
+                  {
+                    location: new window.kakao.maps.LatLng(city.lat, city.lng),
+                    radius: 20000, // 30km 반경에서 검색
+                    size: 15, // 키워드당 최대 15개
+                  }
+                );
+              }, index * 1500); // 키워드마다 1.5초 간격
+            });
+          });
+        }
+
+        // 중복된 가게 제거 (같은 이름, 같은 좌표)
+        removeDuplicateShops() {
+          console.log("\n🧹 중복 가게 제거 중...");
+          const beforeCount = this.allShops.length;
+
+          const uniqueShops = new Map();
+
+          this.allShops.forEach((shop) => {
+            // 가게 이름 + 좌표로 고유 키 생성
+            const uniqueKey = `${shop.place_name.trim()}-${shop.x}-${shop.y}`;
+
+            if (!uniqueShops.has(uniqueKey)) {
+              uniqueShops.set(uniqueKey, shop);
+            }
+          });
+
+          this.allShops = Array.from(uniqueShops.values());
+          const afterCount = this.allShops.length;
+
+          console.log(
+            `📊 중복 제거 결과: ${beforeCount}개 → ${afterCount}개 (${
+              beforeCount - afterCount
+            }개 중복 제거)`
+          );
+        }
+
+        // JSON 파일로 다운로드
+        downloadJSON() {
+          const jsonData = {
+            collection_info: {
+              collected_at: new Date().toISOString(),
+              total_shops: this.allShops.length,
+              collection_method: "카카오맵 키워드 검색",
+              keywords_used: ["가챠", "가차", "캡슐토이", "가챠폰"],
+              note: "전국 주요 도시 기준으로 수집된 데이터입니다.",
+            },
+            shops: this.allShops,
+          };
+
+          // JSON 문자열로 변환
+          const jsonString = JSON.stringify(jsonData, null, 2);
+
+          // 파일 다운로드
+          const blob = new Blob([jsonString], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+
+          const downloadLink = document.createElement("a");
+          downloadLink.href = url;
+          downloadLink.download = `gacha-shops-database-${
+            new Date().toISOString().split("T")[0]
+          }.json`;
+          downloadLink.click();
+
+          URL.revokeObjectURL(url);
+
+          console.log("💾 JSON 파일 다운로드 완료!");
+          console.log("📁 파일명:", downloadLink.download);
+        }
+
+        // 대기 함수
+        wait(milliseconds) {
+          return new Promise((resolve) => setTimeout(resolve, milliseconds));
+        }
+      }
+
+      async function startDataCollection() {
+        const statusDiv = document.getElementById("status");
+        const logDiv = document.getElementById("log");
+
+        statusDiv.textContent =
+          "🔍 데이터 수집 중... (몇 분 정도 걸릴 수 있어요)";
+        logDiv.innerHTML = "";
+
+        // 콘솔 로그를 화면에도 표시
+        const originalLog = console.log;
+        console.log = function (...args) {
+          originalLog.apply(console, args);
+          logDiv.innerHTML += args.join(" ") + "<br>";
+          logDiv.scrollTop = logDiv.scrollHeight;
+        };
+
+        try {
+          const collector = new SimpleGachaCollector();
+          await collector.collectAllData();
+
+          statusDiv.textContent =
+            "✅ 수집 완료! JSON 파일이 다운로드되었습니다.";
+          statusDiv.style.color = "green";
+        } catch (error) {
+          statusDiv.textContent = "❌ 오류 발생: " + error.message;
+          statusDiv.style.color = "red";
+          console.log("오류:", error);
+        }
+
+        // 원래 console.log로 복원
+        console.log = originalLog;
+      }
+    </script>
+  </body>
+</html>
