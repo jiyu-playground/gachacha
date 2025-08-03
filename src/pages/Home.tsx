@@ -4,11 +4,11 @@ import TabNavigation from "../components/TabNavigation";
 import { useState } from "react";
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState("map");
+  const [activeTab, setActiveTab] = useState("feed");
   return (
     <>
       <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab === "map" ? <Map /> : <List />}
+      {activeTab === "feed" ? <List /> : <Map />}
     </>
   );
 };
