@@ -1,12 +1,27 @@
-//TODO tiemAgo getTime으로 가져와서 ~시간 전 or ~일 전이라고 작성되어야 함
-
 import "../styles/ListItem.css";
 import type { postType } from "./List";
 
-const ListItem = ({ imageUrl, userName, text, createdAt, spot }: postType) => {
+type ListItemProps = postType & {
+  onEdit: (id: number) => void;
+  onDelete: (id: number) => void;
+};
+
+const ListItem = ({
+  id,
+  image,
+  text,
+  createdAt,
+  spot,
+  onEdit,
+  onDelete,
+}: ListItemProps) => {
   return (
     <div className="post-card">
-      <div className="post-image">{imageUrl}</div>
+      <div className="post-controls">
+        <button onClick={() => onEdit(id)}>수정</button>
+        <button onClick={() => onDelete(id)}>삭제</button>
+      </div>
+      {image && <img className="post-image" src={image} />}
       <div className="post-body">
         <div className="post-text">{text}</div>
         <div className="post-footer">
