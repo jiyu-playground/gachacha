@@ -32,10 +32,10 @@ const Header = () => {
                 </Link>
               )}
               <div className="sign-out">
-                {user?.photoURL && (
+                {user?.user_metadata.picture && (
                   <img
                     className="user-img"
-                    src={user.photoURL}
+                    src={user.user_metadata.picture}
                     alt="user photo"
                   />
                 )}
