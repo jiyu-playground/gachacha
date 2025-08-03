@@ -214,16 +214,18 @@ const Map = () => {
               initializeMap(lat, lng);
             },
             (error) => {
-              console.log("🔍 위치를 가져올 수 없어서 서울역으로 설정");
-              const lat = 37.5665;
-              const lng = 126.978;
+              console.log(
+                "🔍 위치를 가져올 수 없어서 청년취업사관학교 서대문캠퍼스로 설정"
+              );
+              const lat = 37.5568;
+              const lng = 126.9352;
               initializeMap(lat, lng);
             }
           );
         } else {
           console.log("📱 이 브라우저는 위치 서비스를 지원하지 않습니다");
-          const lat = 37.5665;
-          const lng = 126.978;
+          const lat = 37.5568;
+          const lng = 126.9352;
           initializeMap(lat, lng);
         }
       });
