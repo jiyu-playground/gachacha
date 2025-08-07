@@ -2,6 +2,7 @@ import "../styles/Map.css";
 import { useEffect, useRef, useState, useCallback } from "react";
 import capsuleImage from "../assets/capsule.jpeg";
 import gachaShopsData from "../data/gacha-shops.json";
+import Shop from "./Shop";
 
 declare const window: typeof globalThis & {
   kakao: unknown;
@@ -247,59 +248,63 @@ const Map = () => {
   }, [initializeMap]);
 
   return (
-    <div className="map-section">
-      {/* 지도 영역 */}
-      <div
-        ref={mapRef}
-        id="map"
-        className="map-placeholder"
-        style={{
-          width: "100%",
-          height: "500px",
-          borderRadius: "8px",
-          border: "1px solid #ddd",
-          backgroundColor: "#f8f9fa",
-        }}
-      >
-        {isLoading && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-              color: "#666",
-            }}
-          >
-            <div style={{ fontSize: "32px", marginBottom: "15px" }}>🗺️</div>
-            <div style={{ fontSize: "16px", marginBottom: "5px" }}>
-              지도를 불러오는 중...
-            </div>
-            <div style={{ fontSize: "14px", color: "#999" }}>
-              JSON 데이터에서 가챠샵 정보를 가져오고 있어요
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* 간단한 정보 표시 */}
-      {!isLoading && (
+    <>
+      <div className="map-section">
+        {/* 지도 영역 */}
         <div
+          ref={mapRef}
+          id="map"
+          className="map-placeholder"
           style={{
-            marginTop: "15px",
-            padding: "12px",
-            backgroundColor: "#e8f5e8",
-            borderRadius: "6px",
-            fontSize: "14px",
-            textAlign: "center",
+            width: "100%",
+            height: "500px",
+            borderRadius: "8px",
+            border: "1px solid #ddd",
+            backgroundColor: "#f8f9fa",
           }}
         >
-          📊 총 {gachaShopsData.shops?.length || 0}개 중 근처{" "}
-          {nearbyShops.length}개 표시 중
+          {isLoading && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                color: "#666",
+              }}
+            >
+              <div style={{ fontSize: "32px", marginBottom: "15px" }}>🗺️</div>
+              <div style={{ fontSize: "16px", marginBottom: "5px" }}>
+                지도를 불러오는 중...
+              </div>
+              <div style={{ fontSize: "14px", color: "#999" }}>
+                JSON 데이터에서 가챠샵 정보를 가져오고 있어요
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+      <div>
+        {/* 간단한 정보 표시 */}
+        {!isLoading && (
+          <div
+            style={{
+              marginTop: "15px",
+              padding: "12px",
+              backgroundColor: "#e8f5e8",
+              borderRadius: "6px",
+              fontSize: "14px",
+              textAlign: "center",
+            }}
+          >
+            📊 총 {gachaShopsData.shops?.length || 0}개 중 근처{" "}
+            {nearbyShops.length}개 표시 중
+          </div>
+        )}
+        <Shop />
+      </div>
+    </>
   );
 };
 
