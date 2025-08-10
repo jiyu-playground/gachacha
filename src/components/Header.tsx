@@ -17,7 +17,7 @@ const Header = () => {
       <div className="header-content">
         <Link to={"/"} className="logo">
           <img src={gachachaLogo} alt="가차차 로그" />
-          가차차
+          가차차!
         </Link>
         <div className="nav-buttons">
           {user ? (
