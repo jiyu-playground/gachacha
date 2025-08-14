@@ -1,6 +1,11 @@
 import "../styles/TabNavigation.css";
 
-const TabNavigation = ({ activeTab, setActiveTab }) => {
+interface TabNavigationProps {
+  activeTab: string;
+  setActiveTab: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const TabNavigation = ({ activeTab, setActiveTab }: TabNavigationProps) => {
   return (
     <div className="tabs">
       <button
