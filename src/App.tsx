@@ -5,7 +5,7 @@ import List from "./components/List";
 import "./styles/globals.css";
 import "./styles/responsive.css";
 import Layout from "./components/Layout";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthProvider";
 
 function App() {
   return (

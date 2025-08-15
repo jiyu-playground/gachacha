@@ -1,14 +1,7 @@
-import { createContext, useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { supabase } from "../supabaseClient";
 import type { User, Session } from "@supabase/supabase-js";
-
-type AuthContextType = {
-  user: User;
-  login: () => Promise<void>;
-  logout: () => Promise<void>;
-};
-
-export const AuthContext = createContext<AuthContextType | null>(null);
+import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -44,7 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async () => {
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/`,
