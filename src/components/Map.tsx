@@ -4,10 +4,6 @@ import capsuleImage from "../assets/capsule.jpeg";
 import gachaShopsData from "../data/gacha-shops.json";
 import Shop from "./Shop";
 
-declare const window: typeof globalThis & {
-  kakao: unknown;
-};
-
 interface GachaShop {
   id: string;
   place_name: string;
@@ -218,6 +214,7 @@ const Map = () => {
               console.log(
                 "🔍 위치를 가져올 수 없어서 청년취업사관학교 서대문캠퍼스로 설정"
               );
+              console.error(error);
               const lat = 37.5568;
               const lng = 126.9352;
               initializeMap(lat, lng);
