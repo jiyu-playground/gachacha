@@ -1,4 +1,4 @@
-import "../styles/shopItem.css";
+import "../styles/ShopItem.css";
 
 type ShopItme = {
   place_name: string;
