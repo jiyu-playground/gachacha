@@ -17,7 +17,7 @@ const Write = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const postId = searchParams.get("id");
+  const postId = Number(searchParams.get("id"));
 
   const [post, setPost] = useState<PostData>({
     userId: user?.id || "",
