@@ -1,22 +1,25 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+"use client";
+
 import gachachaLogo from "../assets/gachachaLogo.jpeg";
 import "../styles/Header.css";
 import { useAuth } from "../hooks/useAuth";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 const Header = () => {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
   const { user, login, logout } = useAuth();
 
   const onClickWrite = () => {
-    navigate("/write");
+    router.push("/write");
   };
 
   return (
     <header className="header">
       <div className="header-content">
-        <Link to={"/"} className="logo">
-          <img src={gachachaLogo} alt="가차차 로그" />
+        <Link href={"/"} className="logo">
+          <img src={gachachaLogo.src} alt="가차차 로그" />
           가차차!
         </Link>
         <div className="nav-buttons">
@@ -25,7 +28,7 @@ const Header = () => {
               {pathname !== "/write" && (
                 <Link
                   className="btn primary"
-                  to={`/write`}
+                  href={`/write`}
                   onClick={onClickWrite}
                 >
                   글쓰기

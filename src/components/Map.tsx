@@ -185,7 +185,7 @@ const Map = () => {
 
   // 컴포넌트 시작
   useEffect(() => {
-    const apiKey = import.meta.env.VITE_KAKAO_JAVASCRIPT_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY;
 
     if (!apiKey) {
       console.error("❌ 카카오 API 키가 없습니다!");

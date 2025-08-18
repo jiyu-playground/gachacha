@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, type ReactNode } from "react";
 import { supabase } from "../supabaseClient";
 import type { User, Session } from "@supabase/supabase-js";

@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 firebase.ts
+
+# ...
+.next
+next-env.d.ts
+dist

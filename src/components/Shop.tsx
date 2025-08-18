@@ -5,7 +5,7 @@ const Shop = () => {
   return (
     <div>
       {gachaShopsData.shops.map((shop) => (
-        <ShopItem {...shop} />
+        <ShopItem key={shop.address_name} {...shop} />
       ))}
     </div>
   );

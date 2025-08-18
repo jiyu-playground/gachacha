@@ -1,8 +1,8 @@
-import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../supabaseClient";
 import "../styles/Write.css";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type PostData = {
   userId: string;
@@ -14,9 +14,8 @@ type PostData = {
 
 const Write = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const postId = Number(searchParams.get("id"));
 
   const [post, setPost] = useState<PostData>({
@@ -30,7 +29,7 @@ const Write = () => {
   useEffect(() => {
     if (!user) {
       alert("글쓰기는 로그인이 필요합니다.");
-      navigate("/");
+      router.push("/");
       return;
     }
 
@@ -60,12 +59,12 @@ const Write = () => {
         } catch (error) {
           console.error("게시물 정보를 가져오지 못했습니다.", error);
           alert("게시물 정보를 가져오는 데 실패했습니다.");
-          navigate("/");
+          router.push("/");
         }
       };
       fetchPost();
     }
-  }, [postId, user, navigate]);
+  }, [postId, user, router]);
 
   const uploadImage = async (file: File, userId: string): Promise<string> => {
     try {
@@ -139,7 +138,7 @@ const Write = () => {
         if (error) throw error;
         alert("게시물이 등록되었습니다!");
       }
-      navigate("/");
+      router.push("/");
     } catch (err) {
       console.error(err);
       alert("작업을 완료하지 못했습니다.");

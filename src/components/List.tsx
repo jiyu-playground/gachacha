@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import ListItem from "../components/ListItem";
 import "../styles/List.css";
+import { useRouter } from "next/navigation";
 
 export type postType = {
   id: number;
@@ -15,7 +15,7 @@ export type postType = {
 
 const List = () => {
   const [posts, setPosts] = useState<postType[]>([]);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const fetchPosts = async () => {
     try {
@@ -45,7 +45,7 @@ const List = () => {
   };
 
   const onClickEdit = (id: number) => {
-    navigate(`/write?id=${id}`);
+    router.push(`/write?id=${id}`);
   };
 
   const onClickDelete = async (id: number) => {

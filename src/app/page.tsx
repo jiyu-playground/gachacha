@@ -1,3 +1,5 @@
+"use client";
+
 import Map from "../components/Map";
 import List from "../components/List";
 import TabNavigation from "../components/TabNavigation";
