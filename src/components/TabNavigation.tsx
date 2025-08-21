@@ -1,25 +1,23 @@
+"use client";
+
 import "../styles/TabNavigation.css";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-interface TabNavigationProps {
-  activeTab: string;
-  setActiveTab: React.Dispatch<React.SetStateAction<string>>;
-}
+const TabNavigation = () => {
+  const pathname = usePathname();
 
-const TabNavigation = ({ activeTab, setActiveTab }: TabNavigationProps) => {
   return (
     <div className="tabs">
-      <button
-        className={`tab ${activeTab === "feed" ? "active" : ""}`}
-        onClick={() => setActiveTab("feed")}
-      >
+      <Link href={"/"} className={`tab ${pathname === "/" ? "active" : ""}`}>
         📸 피드
-      </button>
-      <button
-        className={`tab ${activeTab === "map" ? "active" : ""}`}
-        onClick={() => setActiveTab("map")}
+      </Link>
+      <Link
+        href={"/map"}
+        className={`tab ${pathname === "/map" ? "active" : ""}`}
       >
         🗺️ 지도
-      </button>
+      </Link>
     </div>
   );
 };

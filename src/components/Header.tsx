@@ -1,6 +1,6 @@
 "use client";
 
-import gachachaLogo from "../assets/gachachaLogo.jpeg";
+import gachachaLogo from "../../public/images/gachachaLogo.jpeg";
 import "../styles/Header.css";
 import { useAuth } from "../hooks/useAuth";
 import Link from "next/link";

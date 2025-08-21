@@ -4,7 +4,7 @@
   border-radius: 8px;
   padding: 4px;
   display: flex;
-  margin-bottom: 20px;
+  margin: 13px 0 20px 0;
 }
 
 .tab {
@@ -17,6 +17,8 @@
   font-size: 15px;
   color: #6c757d;
   transition: all 0.2s;
+  text-decoration: none;
+  text-align: center;
 }
 
 .tab.active {

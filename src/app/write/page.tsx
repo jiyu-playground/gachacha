@@ -1,7 +1,9 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { supabase } from "../supabaseClient";
-import "../styles/Write.css";
+import { useAuth } from "../../hooks/useAuth";
+import { supabase } from "../../supabaseClient";
+import "../../styles/Write.css";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type PostData = {

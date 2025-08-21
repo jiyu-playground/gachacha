@@ -1,8 +1,9 @@
-import "../styles/Map.css";
+"use client";
+
+import "../../styles/Map.css";
 import { useEffect, useRef, useState, useCallback } from "react";
-import capsuleImage from "../assets/capsule.jpeg";
-import gachaShopsData from "../data/gacha-shops.json";
-import Shop from "./Shop";
+import gachaShopsData from "../../data/gacha-shops.json";
+import ShopList from "../../components/ShopList";
 
 interface GachaShop {
   id: string;
@@ -109,7 +110,7 @@ const Map = () => {
 
             // 원하는 이미지로 마커 생성
             const customMarkerImage = new window.kakao.maps.MarkerImage(
-              capsuleImage, // src/assets/capsule.jpeg (원하는 이미지로 변경)
+              "/images/capsule.jpeg", // src/assets/capsule.jpeg (원하는 이미지로 변경)
               markerImageSize,
               markerImageOption
             );
@@ -299,7 +300,7 @@ const Map = () => {
             {nearbyShops.length}개 표시 중
           </div>
         )}
-        <Shop />
+        <ShopList />
       </div>
     </>
   );
